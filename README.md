@@ -1,0 +1,2 @@
+# R5T.Delphi
+A DatabaseServerAuthentications custom user secrets file library based on R5T.Scotia.
