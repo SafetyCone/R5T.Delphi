@@ -1,17 +1,22 @@
 ﻿using System;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-using R5T.Scotia;
+using R5T.Suebia;
 
 
 namespace R5T.Delphi
 {
     public static class ConfigurationBuilderExtensions
     {
-        public static IConfigurationBuilder AddDatabaseServerAuthentications(this IConfigurationBuilder configurationBuilder)
+        public static IConfigurationBuilder AddDatabaseServerAuthentications(this IConfigurationBuilder configurationBuilder, IServiceProvider configurationServiceProvider)
         {
-            configurationBuilder.AddUserSecretsFileRivetLocation(FileNames.DatabaseAuthenticationsJsonFileName);
+            var secretsFilePathProvider = configurationServiceProvider.GetRequiredService<ISecretsFilePathProvider>();
+
+            var secretsFilePath = secretsFilePathProvider.GetSecretsFilePath(FileNames.DatabaseAuthenticationsJsonFileName);
+
+            configurationBuilder.AddJsonFile(secretsFilePath);
 
             return configurationBuilder;
         }
